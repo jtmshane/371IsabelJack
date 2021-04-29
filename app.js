@@ -204,18 +204,6 @@ auth.onAuthStateChanged((user) => {
 })
 
 
-
-
-//TESTING STUFF recipe modal
-//   let postRecipeBtn = document.querySelector("#postRecipeBtn");
-//   postRecipeBtn.addEventListener('click', (e) => {
-//     var recipemodal = document.querySelector("#recipemodal");
-//     // show modal
-//     recipemodal.classList.add('is-active');
-//     e.preventDefault();
-
-// })
-
 // post recipe nav bar link
 
 let postRecipeBtn = document.querySelector("#postRecipeBtn");
@@ -355,5 +343,35 @@ search_button.addEventListener('click', () => {
 
   })
 
+
+})
+
+
+// display only user's recipes
+
+let addedrecipe = document.querySelector('#addedrecipe');
+
+addedrecipe.addEventListener('click', () => {
+
+  db.collection('recipes').where('email', '==', auth.currentUser.email).get().then((data) => {
+
+    //recipes array
+    let recipes = data.docs;
+    // empty the content div
+    content.innerHTML = "";
+    // loop through the array
+    recipes.forEach((recipe) => {
+      // console.log(recipe.data().title, " ---", recipe.data().desc);
+      main.innerHTML += `
+      <div class="box">
+        <h1 class="title is-size-3 has-background-success-light p-2">${recipe.data().title}</h1>
+        <p class="has-text-right">Submitted by: ${recipe.data().email}</p>
+        <p>${recipe.data().desc}</p>
+        <p>${recipe.data().ingredients}</p>
+      </div>    
+    `;
+    })
+
+  })
 
 })
