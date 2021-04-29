@@ -5,8 +5,6 @@ let loggedinlinks = document.querySelectorAll('.loggedin');
 
 let content = document.querySelector('#content');
 
-// functions
-
 // grab the sign in button
 var signinbutton = document.querySelector("#signinbutton");
 // attach a click event
@@ -17,11 +15,12 @@ signinbutton.addEventListener('click', function () {
   mymodal.classList.add('is-active');
 })
 
-// modal-background
+// remove sign in background
 var modalback = document.querySelector("#modalback");
 modalback.addEventListener('click', function () {
   mymodal.classList.remove('is-active');
 })
+
 
 // grab the sign up button
 var signinbuttonv = document.querySelector("#signinbuttonv");
@@ -33,11 +32,16 @@ signinbuttonv.addEventListener('click', function () {
   mymodal2.classList.add('is-active');
 })
 
-// modal-background
+// remove sign up background
 var modalback2 = document.querySelector("#modalback2");
 modalback2.addEventListener('click', function () {
   mymodal2.classList.remove('is-active');
 })
+
+
+
+//FUNCTIONS
+
 
 function configureContent(auser) {
 
@@ -69,7 +73,7 @@ function configureContent(auser) {
   }
   // user is not not signed in
   else {
-    content.innerHTML = `<p>You must be signed in to see the content</p>`;
+    content.innerHTML = `<p class = "has-text-white has-text-bold has-text-centered">Sign in to See All Recipes!</p>`;
   }
 
 }
@@ -108,6 +112,7 @@ function configureNav(user) {
 let signupmodal = document.querySelector('#signupmodal');
 
 
+
 //attach a submit event
 signupmodal.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -139,8 +144,6 @@ signupmodal.addEventListener('submit', (e) => {
 
 let signin_form = document.querySelector('#signin_form');
 
-// test
-// console.log(signin_form);
 
 // attach a submit event on the form
 signin_form.addEventListener('submit', (e) => {
@@ -259,8 +262,6 @@ postRecipeBtn.addEventListener('click', () => {
 // store recipe details in firebase
 
 submitrecipeform.addEventListener('submit', (e) => {
-  e.preventDefault();
-  // console.log('user submittted a recipe');
 
 
   // grab the recipe title
@@ -294,7 +295,6 @@ submitrecipeform.addEventListener('submit', (e) => {
 
   db.collection('recipes').add(recipe_details).then((data) => {
     console.log('recipe added!');
-    // console.log(data.id);
 
     // 2. display a success message for the user
     alert('You successfully submitted a recipe');
@@ -315,8 +315,7 @@ search_button.addEventListener('click', () => {
   // 1. grab the content of the input with id search_box
 
   let search_box = document.querySelector('#search_box').value;
-  // test out it
-  // console.log(search_box);
+  
 
   // grab the customized data from firebase
 
@@ -347,7 +346,7 @@ search_button.addEventListener('click', () => {
 })
 
 
-// display only user's recipes
+// display user recipes
 
 let addedrecipe = document.querySelector('#addedrecipe');
 
@@ -355,13 +354,14 @@ addedrecipe.addEventListener('click', () => {
 
   db.collection('recipes').where('email', '==', auth.currentUser.email).get().then((data) => {
 
+    
     //recipes array
     let recipes = data.docs;
     // empty the content div
     content.innerHTML = "";
     // loop through the array
     recipes.forEach((recipe) => {
-      // console.log(recipe.data().title, " ---", recipe.data().desc);
+       console.log(recipe.data().title, " ---", recipe.data().desc);
       main.innerHTML += `
       <div class="box">
         <h1 class="title is-size-3 has-background-success-light p-2">${recipe.data().title}</h1>
