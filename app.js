@@ -270,26 +270,36 @@ submitrecipeform.addEventListener('submit', (e) => {
   let recipe_description = document.querySelector('#recipe_description').value;
   let recipe_ingredients = document.querySelector('#recipe_ingredients').value;
 
+  let recipe_title = document.querySelector('#recipe_title').value;
+  let recipe_description = document.querySelector('#recipe_description').value;
+  let recipe_ingredients = document.querySelector('#recipe_ingredients').value;
+
   // upload image to firebase
   // jack's comment here
-  // let file = document.querySelector('#recipe_image').files[0];
+  let file = document.querySelector('#recipe_image').files[0];
 
-  // let image = new Date() + "_" + file.name;
+  let image = new Date() + "_" + file.name;
 
-  // const task = ref.child(image).put(file);
+  const task = ref.child(image).put(file);
 
-  // task
-  //   .then(snapshot => snapshot.ref.getDownloadURL())
-  //   .then((url) => {
-  // console.log(url);
+  task
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then((url) => {
 
-  // combine title and description into one object
-  let recipe_details = {
-    title: recipe_title,
-    desc: recipe_description,
-    ingredients: recipe_ingredients,
-    // url: url
-  }
+          db.collection("recipes").add({
+                  title: recipe_title,
+                  desc: recipe_description,
+                  ingredients: recipe_ingredients,
+                  url: url
+              })
+
+              .then((x) => {
+                  submitrecipeform.reset();
+              })
+              .catch((error) => {
+                  console.error("Error adding Image: ", error);
+              });
+      })
 
   // add recipe_details into firebase
 
