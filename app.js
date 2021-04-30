@@ -270,12 +270,8 @@ submitrecipeform.addEventListener('submit', (e) => {
   let recipe_description = document.querySelector('#recipe_description').value;
   let recipe_ingredients = document.querySelector('#recipe_ingredients').value;
 
-  let recipe_title = document.querySelector('#recipe_title').value;
-  let recipe_description = document.querySelector('#recipe_description').value;
-  let recipe_ingredients = document.querySelector('#recipe_ingredients').value;
 
-  // upload image to firebase
-  // jack's comment here
+  // upload image
   let file = document.querySelector('#recipe_image').files[0];
 
   let image = new Date() + "_" + file.name;
